@@ -1,24 +1,26 @@
-import { walk, move, normalize } from "./deps.ts";
-import { rootDir } from "../interface.js";
+import { walk, move, normalize } from "../deps.ts";
 
+interface EHentaiConstructor {
+    dest: string
+}
 
 export class EHentai {
-destinationPath: string;
-    constructor() {
-        this.destinationPath = normalize(`${rootDir}/ehentai`);
+    destinationPath: string;
+    constructor(options: EHentaiConstructor) {
+        this.destinationPath = normalize(`${options.dest}/ehentai`);
     }
 
-    async moveDir(options: {src:string, galleryId:string}) {
-        options.src = normalize(options.src);
+    async moveDir(options: {folder:string, galleryId:string}) {
+        options.folder = normalize(options.folder);
         
-        await move(options.src, options.galleryId);
+        await move(options.folder, normalize(this.destinationPath + '/' + options.galleryId));
     }
 
-    async getFilesSequence(options:{src:string}): Promise<string[]> {
-        options.src = normalize(options.src);
+    async getFilesSequence(options:{folder:string}): Promise<string[]> {
+        options.folder = normalize(options.folder);
 
         const arr =[];
-        for await (const iterator of walk(options.src)) {
+        for await (const iterator of walk(options.folder)) {
             if (iterator.isFile) {
                 arr.push(iterator.name)
             }

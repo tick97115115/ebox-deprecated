@@ -26,7 +26,15 @@ export interface func_reqGalleryMetadata_Out {
     ]
 }
 
+export function extractGalleryId(url:string) {
+    const urlStr = new URL(url);
+    return urlStr.pathname.slice(1).split('/')[1];
+}
 
+export function extractGalleryToken(url:string) {
+    const urlStr = new URL(url);
+    return urlStr.pathname.slice(1).split('/')[2];
+}
 
 export async function reqGalleryMetadata (obj: func_reqGalleryMetadata_In): Promise<func_reqGalleryMetadata_Out> {
     //检查输入的url数量是否超过25个
@@ -60,14 +68,4 @@ export async function reqGalleryMetadata (obj: func_reqGalleryMetadata_In): Prom
     })
 
     return result
-
-    /*
-    return await this.axiosInstance.post('', payload)
-    .then(res => {
-        return res.data as func_reqGalleryMetadata_Out
-    })
-    .catch(err => {
-        throw err
-    });
-    */
 }
