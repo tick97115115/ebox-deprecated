@@ -82,7 +82,7 @@ program
     .option('-l --url', 'gallery url')
     .action(async ({directory, url}:any) => {
         if (directory && url) {
-            await import('./core/interface.ts').then(async mod => {
+                await import('./core/interface.ts').then(async mod => {
                 await mod.initCore();
                 await mod.addOneGallery({folder: directory, url: url});
                 return mod
